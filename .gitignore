@@ -1,2 +1,4 @@
 # This file should be uploaded with gitlfs
 app/whatsthat.h5
+# Media files should be ignored
+media/images
