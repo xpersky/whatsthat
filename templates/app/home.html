@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}What's That App{% endblock %}
+
+{% block stylesheets %} <link rel="stylesheet" href="{% static 'app/app.css' %}" /> {% endblock %}
+
+{% block content %}
+    <div class='container input'>
+        <div class='in_title'>Upload</div>
+        <div class='handler'>
+        <img id="img" src="#" alt="your image" />
+        </div>
+        <form method="post" action="" id='myreq'>
+        {% csrf_token %}
+        <input type='file' name="image" onchange="process_the_image(this);" />
+        </form>
+    </div>
+    <div class='logo'>
+        <div class='title'>What's That?</div>
+        <img src="{% static 'app/brain-logo.png' %}" alt='logo'/>
+    </div>
+    <div class='container output'> 
+        <div class='out_title'>Result</div>
+        <div class='out_field'>
+            <div class='out_label'>Diagnosis </div>
+            <div class='out_value' id='diag'>Output_DIAG</div>
+        </div>
+        <div class='out_field'>
+            <div class='out_label'>Probability </div>
+            <div class='out_value' id='prob'>Output_PROB</div>
+        </div>
+        <div class='out_note'>  NOTE! Using this tool will never replace a doctor's appointment. <br>
+                                Remember that if you have any doubts, it will be best to seek 
+                                professional advice in a medical clinic.<br><br> Algorithm precision is about 93%.
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+<script>
+        function process_the_image(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#img').fadeOut(500);
+                    setTimeout(function(){
+                    $('#img').attr('src', e.target.result); }, 450)
+                    setTimeout(function(){ $('#img').fadeIn(500); },   500);
+                }
+                reader.readAsDataURL(input.files[0]);
+                $('#diag').text('COMPUTING...');
+                $('#prob').text('COMPUTING...');
+                var data = new FormData($('#myreq').get(0));
+                $.ajax({
+                    url: '/result',
+                    type: 'POST',
+                    data: data,
+                    contentType: 'multipart/form-data',
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    success: function(data) {
+                        $('#diag').text(data[0]);
+                        $('#prob').text((data[1]*100).toFixed(2)+'%');
+                    }
+                });
+            }
+            return false;
+        }
+</script>
+{% endblock %}
