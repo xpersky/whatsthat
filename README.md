@@ -3,7 +3,7 @@ skin cancer recognition django app
 
 *** Work in progress ***
 
-#TODO#
+# TODO #
 1. Make web skeleton for app and make convnet ...( done )
 2. Make base template ...( done )
 3. Make app template ...( done )
