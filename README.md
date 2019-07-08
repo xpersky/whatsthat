@@ -14,3 +14,7 @@ skin cancer recognition django app
 8. Save input image on server to train convnet ...( done )
 9. Add admin action to train convnet ...( beta )
 10. Add app usage statistics ...( done )
+
+SuperUser is admin and password is admin
+
+For now project seems to be done, in nearly future i would try to implement better option for unsupervised learning for Convnet
