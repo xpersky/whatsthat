@@ -111,7 +111,15 @@ $(document).ready(function() {
     {
         if(history.state != 'stats') history.replaceState('stats', null, '/stats');
         if(hidden_stats)
-        {
+        {   
+            var dataset = [];
+            $.ajax({
+                url: '/statistics',
+                datatype: 'json',
+                success: function(data) {
+                    dataset = data;
+                }
+            });
             $('.st_title_con').fadeIn();
             setTimeout(function(){ $('.st_chart_con').fadeIn(); },  250);
             setTimeout(function(){
@@ -121,17 +129,10 @@ $(document).ready(function() {
                     data: {
                         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June','July','Aug','Sept','Oct','Nov','Dec'],
                         datasets: [{
-                            label: 'identified as cancer',
-                            data: [20, 24, 32, 45, 55, 44, 41, 44, 58, 67, 75, 92],
-                            backgroundColor: 'rgba(255, 99, 132, 0.5)' , 
-                            borderColor: 'rgba(255, 99, 132, 1)' ,
-                            borderWidth: 1
-                        },
-                        {
-                            label: 'identified as not a cancer',
-                            data: [24, 28, 34, 49, 62, 50, 43, 48, 61, 60, 76, 90],
-                            backgroundColor: 'rgba(75, 192, 192, 0.5)' ,
-                            borderColor: 'rgba(75, 192, 192, 1)' , 
+                            label: 'total usage',
+                            data: dataset,
+                            backgroundColor: 'rgba(39, 60, 117,0.5)' , 
+                            borderColor: 'rgba(25, 42, 86,1.0)' ,
                             borderWidth: 1
                         }]
                     },

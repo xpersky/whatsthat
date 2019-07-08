@@ -1,13 +1,17 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from django.http import JsonResponse
-from .models import TrainImagesOfCancer, TrainImagesNotCancer, Usage
-
 import os
 import cv2
 import numpy as np
 from keras.models import load_model
 import tensorflow as tf
+import datetime
+
+from django.shortcuts import render
+from django.http import HttpResponse
+from django.http import JsonResponse
+from django.db.models import Count
+from django.db.models.functions import TruncMonth
+
+from .models import TrainImagesOfCancer, TrainImagesNotCancer, Usage
 
 graph = tf.get_default_graph()
 model = load_model(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'whatsthat.h5'))
@@ -53,3 +57,26 @@ def fetch_result(res,req):
     usage.result = diag
     usage.save()
     return [diag,prob]
+
+def stats(request):
+    if request.method == 'GET':
+        if request.is_ajax():
+            usage = Usage.objects.annotate(month=TruncMonth('date')).values('month').annotate(total=Count('id'))
+            usages = []
+            today = datetime.date.today()
+            for monthly in usage:
+                delta = today - monthly['month']
+                if delta.days < 365:
+                    usages.append((monthly['month'].month,monthly['total']))
+            result = []
+            for i in range(12):
+                ct = 0
+                for item in usages:
+                    m , t = item
+                    if i == m:
+                        result.append(t)
+                    else: 
+                        ct += 1
+                if ct == len(usages):
+                    result.append(0)
+    return JsonResponse(result, safe=False)        

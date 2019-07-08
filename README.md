@@ -12,5 +12,5 @@ skin cancer recognition django app
 6. Preprocess the image and reshape ...( done )
 7. Use onchange event to fire the algorithm ...( done )
 8. Save input image on server to train convnet ...( done )
-9. Add admin action to train convnet ...( testing )
-10. Add app usage statistics ...( in progress )
+9. Add admin action to train convnet ...( beta )
+10. Add app usage statistics ...( done )

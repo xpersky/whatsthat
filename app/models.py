@@ -12,5 +12,5 @@ class ConvnetModel(models.Model):
     name = models.CharField(max_length=20,default="What's that conv")
 
 class Usage(models.Model):
-    date = models.DateField(default=timezone.now)
+    date = models.DateField(default=timezone.now())
     result = models.CharField(max_length=10,default="")
