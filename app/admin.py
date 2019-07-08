@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import TrainImagesOfCancer, TrainImagesNotCancer, ConvnetModel
+from .models import TrainImagesOfCancer, TrainImagesNotCancer, ConvnetModel, Usage
 from .trainer import trainer
 
 # Register your models here.
@@ -14,3 +14,4 @@ class Convnet(admin.ModelAdmin):
 admin.site.register(TrainImagesOfCancer)
 admin.site.register(TrainImagesNotCancer)
 admin.site.register(ConvnetModel, Convnet)
+admin.site.register(Usage)

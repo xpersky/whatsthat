@@ -27,14 +27,16 @@ def trainer():
     train_gen = train_datagen.flow_from_directory(images_path,batch_size=batch_size,subset='training')
     valid_gen = train_datagen.flow_from_directory(images_path,batch_size=batch_size,subset='validation')
 
-    model.compile(optimizer=RMSprop(lr=1e-5),
-                loss='binary_crossentropy',
-                metrics=['accuracy'])
+    with graph.as_default():
+        
+        model.compile(optimizer=RMSprop(lr=1e-5),
+                    loss='binary_crossentropy',
+                    metrics=['accuracy'])
 
-    model.fit_generator(train_gen,
-                        epochs=10,
-                        steps_per_epoch = len(train_gen) // batch_size,
-                        validation_data = valid_gen,
-                        validation_steps = len(valid_gen) // batch_size)
+        model.fit_generator(train_gen,
+                            epochs=10,
+                            steps_per_epoch = len(train_gen) // batch_size,
+                            validation_data = valid_gen,
+                            validation_steps = len(valid_gen) // batch_size)
 
-    model.save(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'whatsthat.h5'))
+        model.save(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'whatsthat.h5'))

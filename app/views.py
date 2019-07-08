@@ -51,4 +51,5 @@ def fetch_result(res,req):
         instance.save()
     usage = Usage()
     usage.result = diag
+    usage.save()
     return [diag,prob]
