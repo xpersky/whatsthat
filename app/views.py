@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import JsonResponse
-from .models import TrainImagesOfCancer, TrainImagesNotCancer
+from .models import TrainImagesOfCancer, TrainImagesNotCancer, Usage
 
 import os
 import cv2
@@ -49,4 +49,6 @@ def fetch_result(res,req):
         instance = TrainImagesNotCancer()
         instance.image = req.FILES['image']
         instance.save()
+    usage = Usage()
+    usage.result = diag
     return [diag,prob]
