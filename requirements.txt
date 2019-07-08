@@ -1,4 +1,5 @@
 django
+django-cleanup
 tensorflow
 keras
 opencv-python
